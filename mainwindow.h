@@ -17,8 +17,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    int s,ms;
+    int32_t s,ms,num;
     bool flag=true;
+    int i=0;
+    int l1,l2;
 
 private:
     Ui::MainWindow *ui;
@@ -29,6 +31,6 @@ public slots:
     void TimerSlot(void);
     void TimerSlotStartStop(void);
     void TimerSlotClear(void);
-
+    void TimerSlotCircle(void);
 };
 #endif // MAINWINDOW_H
