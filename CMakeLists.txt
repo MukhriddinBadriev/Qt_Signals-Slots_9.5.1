@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(Dars_5 VERSION 0.1 LANGUAGES CXX)
+project(Hel VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -13,51 +13,59 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-        main.cpp
+main.cpp
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
         signalstopwatch.cpp
-        signalstopwatch.h
-)
+        signalstopwatch.h)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(Dars_5
+    qt_add_executable(Hel
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
 # Define target properties for Android with Qt 6 as:
-#    set_property(TARGET Dars_5 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#    set_property(TARGET Hel APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(Dars_5 SHARED
+        add_library(Hel SHARED
             ${PROJECT_SOURCES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(Dars_5
+        add_executable(Hel
             ${PROJECT_SOURCES}
         )
     endif()
 endif()
 
-target_link_libraries(Dars_5 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(Hel PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-set_target_properties(Dars_5 PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
+# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
+# If you are developing for iOS or macOS you should consider setting an
+# explicit, fixed bundle identifier manually though.
+if(${QT_VERSION} VERSION_LESS 6.1.0)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.Hel)
+endif()
+set_target_properties(Hel PROPERTIES
+    ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS Dars_5
+include(GNUInstallDirs)
+install(TARGETS Hel
     BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(Dars_5)
+    qt_finalize_executable(Hel)
 endif()

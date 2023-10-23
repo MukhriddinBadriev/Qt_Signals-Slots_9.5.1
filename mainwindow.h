@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QTimer>
 #include "signalstopwatch.h"
 
 QT_BEGIN_NAMESPACE
@@ -17,20 +16,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    int32_t s,ms,num;
-    bool flag=true;
-    int i=0;
-    int l1,l2;
-
 private:
     Ui::MainWindow *ui;
-    QTimer *timer;
-    SignalStopwatch *sigWatch;
+    SignalStopwatch *sWatch;
 
 public slots:
-    void TimerSlot(void);
-    void TimerSlotStartStop(void);
-    void TimerSlotClear(void);
-    void TimerSlotCircle(void);
+    void getStartStop(void);
 };
 #endif // MAINWINDOW_H
